@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">用户信息</h1>
+		</header>
+		<div class="mui-content">				
+			<ul class="mui-table-view" >
+				<li id="1" class="mui-table-view-cell mui-media">
+					<a class="mui-navigate-right" >
+						<div style="position: absolute;line-height: 50px;">头像</div>
+						<span id="ci">							
+							<img id="img1" class="mui-media-object mui-pull-right" style="padding-right: 0px;width: 45px;height: 45px;" src="../images/yuantiao.jpg">
+						</span>						
+					</a>
+				</li>
+				<li id="2" onclick="clicked(this.id)" class="mui-table-view-cell">
+					<a  class="mui-navigate-right">
+						名字
+						<span id="cn" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>
+					</a>
+				</li>				
+				<li id="3" onclick="clicked(this.id)" class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						帐号
+						<span id="ca" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>
+					</a>
+				</li>
+				<li id="4" onclick="clicked(this.id)" class="mui-table-view-cell">
+					<a  class="mui-navigate-right">
+						我的地址
+						<span id="cad" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>
+					</a>
+				</li>				
+			</ul>
+			<ul class="mui-table-view" style="margin-top: 30px;">
+				<!--<li  class="mui-table-view-cell" style="text-align: center;">XXXX</li>-->
+				<li id="5" onclick="clicked(this.id)" class="mui-table-view-cell">
+					<a  class="mui-navigate-right">
+						爱好
+						<span id="ch" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>
+					</a>
+				</li>
+				<li id="6" onclick="clicked(this.id)" class="mui-table-view-cell">
+					<a  class="mui-navigate-right">
+						个性签名
+						<span id="cin" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>
+					</a>
+				</li>
+				<li  class="mui-table-view-cell">
+					<a id="csafe" class="mui-navigate-right">
+						帐号安全
+						<span id="csafe" class="mui-ellipsis mui-pull-right" style="font-size: 18px;color: #AAAAAA;">XXXX</span>						
+					</a>
+				</li>
+			</ul>
+			
+			<!--显示更多-->
+			<div id="showb" class="mui-switch mui-switch-mini mui-pull-right">
+				<div class="mui-switch-handle"></div>
+			</div>
+			<ul class="mui-table-view" style="margin-top: 31px;" >						
+				<div id="togglebutton" class="mui-collapse-content" style="display: none;">							
+					<form class="mui-input-group">								
+						<li  class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+								年龄
+								<span id="cage" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>						
+							</a>
+						</li>				
+						<li  class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+								性别
+								<span id="csex" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>						
+							</a>
+						</li>
+						<li  class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+								邮箱
+								<span id="cemail" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>						
+							</a>
+						</li>
+						<li  class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+								学历
+								<span id="cstu" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>						
+							</a>
+						</li>
+						<li  class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+								工作
+								<span id="cjob" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>						
+							</a>
+						</li>	
+						<li  class="mui-table-view-cell">
+							<a  class="mui-navigate-right">
+								身份证
+								<span id="cidentity" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>						
+							</a>
+						</li>				
+						<li  class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+								银行卡
+								<span id="cbankcard" class="mui-ellipsis mui-pull-right" style="font-size: 15px;color: #AAAAAA;"></span>						
+							</a>
+						</li>						
+					</form>
+				</div>					
+			</ul>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/app.js"></script>
+	<script>
+		mui.init();
+		
+		var islogin=0;//验证
+		var isnet=0;
+		var url1 = 'http://172.16.19.59:8080/phonebook/m_user';
+		var cid=0;
+		var mode=0;
+		var values=0;
+		var ci=document.getElementById('img1');
+		var ca=document.getElementById('ca');
+		var cad=document.getElementById('cad');
+		var cn=document.getElementById('cn');
+		var ch=document.getElementById('ch');
+		var cin=document.getElementById('cin');
+		var csafe=document.getElementById('csafe');
+		var cage=document.getElementById('cage');
+		var csex=document.getElementById('csex');
+		var cemail=document.getElementById('cemail');
+		var cstu=document.getElementById('cstu');
+		var cjob=document.getElementById('cjob');
+		var cidentity=document.getElementById('cidentity');
+		var cbankcard=document.getElementById('cbankcard');
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			islogin=self.islogin;
+			isnet=self.isnet;
+			if (isnet==1 && islogin==1) {
+			//self.reload();
+				cid=JSON.parse(localStorage.getItem('chat_id'))[0].id ||0;
+				ci.src=JSON.parse(localStorage.getItem('chat_id'))[0].photo;
+				cn.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].usertitle || 'xxx';
+				ca.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].username;
+				cad.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].addre|| 'xxx';
+				ch.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].hobby || 'xxx';
+				cin.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].info || 'xxx';
+				
+				cage.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].age|| 'xxx';
+				csex.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].sex || 'xxx';
+				cemail.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].email || 'xxx';
+				cstu.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].stu|| 'xxx';
+				cjob.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].job || 'xxx';
+				cidentity.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].identity || 'xxx';
+				cbankcard.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].bankcard || 'xxx';
+			}
+			
+			
+			mui('.mui-table-view').on('tap', 'span', function(e) {
+				var funcid=this.getAttribute('id')
+  				//mui.toast('change:'+id);
+  				switch (funcid){
+  					case 'ci':
+  					plus.gallery.pick(function(path) {
+  						if (ci.src != path) {
+  							modify(url1,funcid,path,cid);
+							ci.src=path; 
+							var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+							chatinfo[0].photo=path;
+							localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+							//mui.fire('my.html','refresh',{chatinfo:'1'});
+  							}
+						}, function(err) {
+							//mui.alert('111','取消alert');
+						});	
+						break;
+					case 'cn':
+						mui.toast('名字');
+						var btnArray = ['取消', '确定'];
+             			mui.prompt('请输入新的名字(有权限)', '', '修改名字', btnArray, function(e) {
+                	    if (e.index == 1) {
+                        	modify(url1,funcid,e.value,cid);
+                        	cn.innerHTML=e.value;
+                        	var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+							chatinfo[0].usertitle=e.value;
+							localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+                    	}                	    
+                		});
+						break;
+					case 'ca':
+						mui.toast('帐号');
+						break;
+					case 'cad':
+						mui.toast('我的地址');
+						var btnArray = ['取消', '确定'];
+             			mui.prompt('请输入新的地址', '', '修改地址', btnArray, function(e) {
+                	    if (e.index == 1) {
+                        	modify(url1,funcid,e.value,cid);
+                        	cad.innerHTML=e.value;
+                        	var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+							chatinfo[0].addre=e.value;
+							localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+                    	}                	    
+                		});
+						break;
+					case 'ch':
+						mui.toast('爱好');	
+						var btnArray = ['取消', '确定'];
+             			mui.prompt('请输入新的爱好', '', '修改爱好', btnArray, function(e) {
+                	    if (e.index == 1) {
+                        	modify(url1,funcid,e.value,cid);
+                        	ch.innerHTML=e.value;
+                        	var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+							chatinfo[0].hobby=e.value;
+							localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+                    	}                	    
+                		});
+						break;
+					case 'cin':
+						mui.toast('个性签名');	
+						var btnArray = ['取消', '确定'];
+             			mui.prompt('请输入新的个性签名', '', '修改签名', btnArray, function(e) {
+                	    if (e.index == 1) {
+                        	modify(url1,funcid,e.value,cid);
+                        	cin.innerHTML=e.value;
+                        	var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+							chatinfo[0].info=e.value;
+							localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+                    	}                	   
+                		});
+						break;
+					case 'csafe':
+						mui.toast('帐号安全');	
+						mui.openWindow({
+							url:'csafe.html',
+							id:'csafe'
+						/*extras:{
+							isnet:isnet,
+							islogin:islogin
+							}*/
+						});
+						break;
+					case 'cage':
+						mui.toast('年龄');
+						var btnArray = ['取消', '确定'];
+             			mui.prompt('请输入年龄', '', '修改年龄', btnArray, function(e) {
+                	    if (e.index == 1) {
+                        	modify(url1,funcid,e.value,cid);
+                        	cage.innerHTML=e.value;
+                        	var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+							chatinfo[0].age=e.value;
+							localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+                    	}                	   
+                		});
+						break;
+					case 'csex':
+						mui.toast('性别');
+						var btnArray = ['取消', '确定'];
+             			mui.prompt('请输入性别', '', '修改性别', btnArray, function(e) {
+                	    if (e.index == 1) {
+                        	modify(url1,funcid,e.value,cid);
+                        	csex.innerHTML=e.value;
+                        	var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+							chatinfo[0].sex=e.value;
+							localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+                    	}                	   
+                		});
+						break;
+					case 'cemail':
+						mui.toast('邮箱');
+						var btnArray = ['取消', '确定'];
+             			mui.prompt('请输入新的邮箱', '', '修改邮箱', btnArray, function(e) {
+                	    if (e.index == 1) {
+                	    	if (!checkEmail(e.value)) {
+                	    		mui.toast('您输入的邮箱地址不合法，请重新输入！');
+                	    	}else{
+                	    		modify(url1,funcid,e.value,cid);
+                        		cemail.innerHTML=e.value;
+                        		var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+								chatinfo[0].email=e.value;
+								localStorage.setItem('chat_id',JSON.stringify(chatinfo));  
+                	    	}
+                        	
+                    	}                	   
+                		});
+						break;
+					case 'cstu':
+						mui.toast('学历');
+						var btnArray = ['取消', '确定'];
+             			mui.prompt('请输入学历', '', '修改学历', btnArray, function(e) {
+                	    if (e.index == 1) {
+                        	modify(url1,funcid,e.value,cid);
+                        	cstu.innerHTML=e.value;
+                        	var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+							chatinfo[0].stu=e.value;
+							localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+                    	}                	   
+                		});
+						break;
+					case 'cjob':
+						mui.toast('工作');
+						var btnArray = ['取消', '确定'];
+             			mui.prompt('请输入工作', '', '修改工作', btnArray, function(e) {
+                	    if (e.index == 1) {
+                        	modify(url1,funcid,e.value,cid);
+                        	cjob.innerHTML=e.value;
+                        	var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+							chatinfo[0].job=e.value;
+							localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+                    	}                	   
+                		});
+						break;
+					case 'cidentity':
+						mui.toast('身份证');
+						//if (!cidentity.innerHTML) {
+							var btnArray = ['取消', '确定'];
+             			mui.prompt('请输入身份证', '', '修改身份证', btnArray, function(e) {
+                	    if (e.index == 1) {
+                        	modify(url1,funcid,e.value,cid);
+                        	cidentity.innerHTML=e.value;
+                        	var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+							chatinfo[0].identity=e.value;
+							localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+                    	}                	   
+                		});
+						//}
+						
+						break;
+					case 'cbankcard':
+						mui.toast('银行卡');
+						var btnArray = ['取消', '确定'];
+             			mui.prompt('请输入身份证', '', '修改身份证', btnArray, function(e) {
+                	    if (e.index == 1) {
+                        	modify(url1,funcid,e.value,cid);
+                        	cbankcard.innerHTML=e.value;
+                        	var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+							chatinfo[0].cbankcard=e.value;
+							localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+                    	}                	   
+                		});
+						break;
+					
+					default:
+						break;	
+  					}
+  				
+			});	//table-view--end
+			
+						
+			function modify(url,id,data,cid){				
+				mui.ajax(url, {
+					data: {
+						funcid: id,
+						data:data,
+						cid:cid
+					},
+					dataType: 'text',
+					type: 'post',
+					//timeout: '100000',
+					//headers: {'Content-Type': 'application/json'},
+					success: function(data) {
+						if (data==1) {
+							mui.toast('success');
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log("异常" + type); //异常
+					}
+				});
+			}//ajax--end			
+			
+					
+			document.getElementById('showb').addEventListener('toggle',function(e){
+				var isActive=e.detail.isActive;		
+				var togglebutton=document.getElementById('togglebutton');
+				isActive?setTimeout(function(){togglebutton.style.display='block';},200):setTimeout(function(){togglebutton.style.display='none';},200);
+				
+				});		//showb
+				
+								
+				
+			});//plusReady--end
+			
+			//邮箱验证
+			var checkEmail = function(email) {
+				email = email || '';
+				//var reg=new RegExp('^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$');
+				var reg=new RegExp('^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$');
+				return (reg.test(email));
+			};
+			
+			
+			
+			mui.back=function(){
+				var hacc=1;
+				var page = plus.webview.getWebviewById('my');
+				mui.fire(page,'refresh',{chatinfo:hacc});
+				var self = plus.webview.currentWebview();
+				self.close();
+				
+			}
+		
+		//click
+		function clicked(id){
+			//alert(id);
+			/*switch (id){
+				case '1':
+					mui.toast('头像');
+				plus.gallery.pick(function(path) {
+					document.getElementById('img1').src=path;
+					//alert("Success: " + path);
+				}, function(err) {
+					mui.alert('111','取消alert');
+				});					
+					
+					break;
+				case '2':
+					mui.toast('名字');
+					break;
+				case '3':
+					mui.toast('帐号');
+					break;
+				case '4':
+					mui.toast('地址');
+					break;
+				case '5':
+					mui.toast('设置');
+				
+					break;
+				default:
+					break;
+			}*/
+		}
+	</script>
+</html>

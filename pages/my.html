@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="mui-content" style="margin-top: -17px;">
+			<ul class="mui-table-view">
+				<li id="1" onclick="clicked(this.id)" class="mui-table-view-cell mui-media">
+					<a class="mui-navigate-right" >
+						<img id="ci" class="mui-media-object mui-pull-left" src="../images/yuantiao.jpg" style="width: 45px;height: 45px;">
+						<div class="mui-media-body">
+							<div id="hname" >请登录...</div>
+							<p id="cin" class="mui-ellipsis">个性签名</p>
+						</div>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view" style="margin-top: 30px;">
+				<li id="2" onclick="clicked(this.id)" class="mui-table-view-cell">
+					<a  class="mui-navigate-right">
+						网盘
+					</a>
+				</li>				
+				<li id="3" onclick="clicked(this.id)" class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						历史
+					</a>
+				</li>
+				<li id="4" onclick="clicked(this.id)" class="mui-table-view-cell">
+					<a  class="mui-navigate-right">
+						收藏
+					</a>
+				</li>
+			</ul>	
+			<ul class="mui-table-view" style="margin-top: 30px;">
+				<li id="5" onclick="clicked(this.id)" class="mui-table-view-cell">
+					<a  class="mui-navigate-right">
+						设置
+					</a>
+				</li>
+			</ul>
+			<!--<ul class="mui-table-view" style="margin-top: 30px;">
+				<li id='exit' class="mui-table-view-cell" style="text-align: center;">退出登录</li>
+			</ul>-->
+		</div>
+		<input type="hidden" id="chathacc"></input>
+		</body>
+	
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/sub.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/app.js"></script>
+	<script>
+		mui.init();		
+		
+		var isnet=0;
+		var islogin=0;
+		var hacc=0;
+		var chathacc=document.getElementById('chathacc');
+		window.addEventListener('refresh',function(e){
+			hacc=e.detail.chatinfo;
+			if (hacc==1) {
+				//var chatinfo=JSON.parse(e.detail.chatinfo);
+				var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+				if (chatinfo[0].usertitle=='') {
+					document.getElementById('hname').innerHTML=chatinfo[0].username;
+				}else{
+					document.getElementById('hname').innerHTML=chatinfo[0].usertitle;
+				}				
+				document.getElementById('cin').innerHTML=chatinfo[0].info;
+				document.getElementById('ci').src=chatinfo[0].photo;
+				chathacc.value=hacc;
+				//hacc=0;
+			}
+			
+			
+			//此时userinfo页面会反刷新，用case 1 的if条件来控制
+			if (plus.networkinfo.getCurrentType()!=plus.networkinfo.CONNECTION_NONE && plus.networkinfo.getCurrentType()!=plus.networkinfo.CONNECTION_UNKNOW) {
+					isnet=1;
+					islogin=1;						
+				}
+		});
+				
+		
+		//click
+		function clicked(id){
+			//alert(id);
+			switch (id){
+				case '1':
+					mui.toast('1');
+					if (isnet==1 && islogin==1) {
+						mui.openWindow({
+						url:'userinfo.html',
+						id:'userinfo',
+						extras:{
+							isnet:isnet,
+							islogin:islogin
+							}
+						});
+					}else{
+						mui.openWindow({
+							url: '/login.html',
+							id: 'login',
+							show: {
+								aniShow: 'pop-in'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}
+				
+					break;
+				case '2':
+					mui.toast('2');
+					break;
+				case '3':
+					mui.toast('历史');
+					break;
+				case '4':
+					mui.toast('收藏');
+					break;
+				case '5':
+					mui.toast('设置');
+					mui.openWindow({
+					url:'/setting.html',
+					id:'setting',
+					
+				});
+					break;
+				default:
+					break;
+			}
+		}
+		
+		 /*//退出操作******************
+		document.getElementById('exit').addEventListener('tap', function() {
+			if (mui.os.ios) {
+				app.setState({});
+				mui.openWindow({
+					url: '/login.html',
+					id: 'login',
+					show: {
+						aniShow: 'pop-in'
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+				localStorage.removeItem('chat_id');
+				localStorage.removeItem('chat_set');
+				//localStorage.removeItem('chat_p');
+				return;
+			}
+			var btnArray = [{
+				title: "注销当前账号"
+			}, {
+				title: "直接关闭应用"
+			}];
+			plus.nativeUI.actionSheet({
+				cancel: "取消",
+				buttons: btnArray
+			}, function(event) {
+				var index = event.index;
+				switch (index) {
+					case 1://注销帐号
+						app.setState({});
+						mui.openWindow({
+							url: '/login.html',
+							id: 'login',
+							show: {
+								aniShow: 'pop-in'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+						localStorage.removeItem('chat_id');
+						localStorage.removeItem('chat_set');						
+						break;
+					case 2:
+						plus.runtime.quit();//关闭应用
+						break;
+				}
+			});
+		}, false);*/
+		 //************************
+		 
+	</script>
+</html>

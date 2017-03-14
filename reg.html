@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mydefine.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+<!--					<span class="mui-icon mui-icon-contact" style="background-color:rosybrown;width: 40px;height: 40px;"></span>
+-->				<label>手机</label>	
+				<input id=' telphone' type="text" class="mui-input-clear mui-input" placeholder="请输入手机号码">
+				</div>
+				<!--<div class="mui-input-row">
+					<label>验证码</label>
+					<input id='code' type="text" class="mui-input-clear mui-input" style="column-width: ;" placeholder="请输入验证码">
+					<a href="javascript:senmobile(60);" id="getcode" disabled="true">获取验证码</a>
+				</div>-->
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id='pwd' type="password"  class="mui-input-clear mui-input" placeholder="请输入密码(字母和数字组合)">
+				</div>
+				<div class="mui-input-row">
+					<label>确认</label>
+					<input id='pwd_confirm' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
+				</div>				
+			</form>
+			<div class="mui-content-padded">
+				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">点我注册</button>
+<!--				<button id='cs'  class="mui-btn mui-btn-block mui-btn-primary" onclick="check()">测试</button>
+-->			</div>
+			<div class="mui-content-padded">
+				<p>请牢记您的帐号和密码信息，如果您忘记您的密码，请点击<a id='forgetPassword'>找回密码</a>找回。（一个手机最多可以注册两个帐号！）</p>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			var url1 = 'http://172.16.19.59:8080/phonebook/user';
+		
+			(function($, doc) {
+				$.init();
+				$.plusReady(function() {
+					var settings = app.getSettings();	//设置
+					var submint = doc.getElementById('reg');
+					var accountBox = doc.getElementById(' telphone');
+					var passwordBox = doc.getElementById('pwd');
+					var passwordConfirmBox = doc.getElementById('pwd_confirm');					
+					var forgetButton = doc.getElementById('forgetPassword');
+					
+					submint.addEventListener('tap', function(event) {
+						suspendBtn(submint);
+						var uregInfo = {
+							username: accountBox.value,
+							userpwd: passwordBox.value
+						};
+						var userpwdConfirm = passwordConfirmBox.value;
+						
+						if(check(uregInfo,userpwdConfirm)){
+							add_account(url1,'add',uregInfo.username,uregInfo.userpwd);
+						}else{
+							doc.getElementById('pwd_confirm').value='';
+						}
+						
+						
+						resumeBtn(submint);
+					});
+					
+					forgetButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							url: 'forget_password.html',
+							id: 'forget_password',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, false);
+				});
+			}(mui, document));
+						
+			function check(uregInfo,userpwdConfirm){
+				if(uregInfo.username==''){
+					mui.toast('手机不能为空，请填写！');
+					return false;
+				}
+				if(uregInfo.userpwd==''){
+					mui.toast('密码不能为空，请填写！');
+					return false;
+				}
+				if(userpwdConfirm==''){
+					mui.toast('确认密码不能为空，请填写！');
+					return false;
+				}
+				if (userpwdConfirm != uregInfo.userpwd) {
+					//alert(accountBox.value.toString()+accountBox.value);
+					mui.toast('密码与确认密码不一致，请重新输入。');
+					return false;
+					}
+				
+				
+				var regex1 = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$";   //密码6-12位的字母数字组合
+				//var regex3="^[A-Za-z0-9]+{6,12}$";  //字母或数字
+				var regex2='^[\u4E00-\u9FA5A-Za-z0-9]+$';  //帐号中文数字字母
+				var regex3='^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|70)\\d{8}$';//手机
+				var  telphone=new RegExp(regex3);
+				var pwd=new RegExp(regex1);
+				
+				if(! telphone.test(document.getElementById(' telphone').value)){
+					alert('您输入的手机号不能正确识别!');
+					return false;
+				}else if(!pwd.test(document.getElementById('pwd').value)){
+					alert('密码必须是6-12位数字和字母的组合！');
+					//document.getElementById('pwd').value='';
+					return false;
+				}else{
+					return true;
+				}
+			}
+			
+			function add_account(url, func, name,pwd) {
+				mui.ajax(url, {
+					data: {
+						func: func,
+						username: encodeURI(name),
+						userpwd:pwd
+					},
+					dataType: 'text',
+					type: 'post',
+					//timeout: '100000',
+					//headers: {'Content-Type': 'application/json'},
+					success: function(data) {
+						if(data!=0){
+							mui.toast("此帐号名称已被使用，请换个更好的名字。");
+							return;
+						}else{
+							//已注册成功，保存帐号密码到本地
+							document.getElementById(' telphone').value='';
+							document.getElementById('pwd').value='';
+							document.getElementById('pwd_confirm').value='';
+							plus.nativeUI.toast('注册成功');
+							setTimeout(function(){
+								mui.openWindow({
+								url: 'login.html',
+								id: 'login',
+								show: {
+									aniShow: 'pop-in'
+								}								
+							});},20);
+							
+							//此处不用保存到本地
+							/*app.reg(uregInfo, function(err) {
+							if (err) {
+								plus.nativeUI.toast(err);
+								return;
+							}
+							plus.nativeUI.toast('注册成功');
+							$.openWindow({
+								url: 'login.html',
+								id: 'login',
+								show: {
+									aniShow: 'pop-in'
+								}
+							});
+						});*/
+						
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log("异常" + type); //异常
+					}
+				});
+			}
+			
+			//挂起按钮
+			function suspendBtn(btn){
+    			btn.disabled="disabled";
+   				btn.value="正在注册";
+			}
+ 
+				//恢复按钮
+			function resumeBtn(btn){
+   				btn.disabled="";
+   				btn.value="注册成功";
+			}
+			
+		</script>
+	</body>
+</html>

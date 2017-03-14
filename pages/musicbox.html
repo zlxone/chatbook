@@ -1,0 +1,302 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>musicbox</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/xiala.css">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style type="text/css">						
+			.progress {
+				  position: relative;
+				  left: -5%;
+				  /*width: 15%;*/
+				  background-color: white;
+				  margin: 0 5%;
+				  border: 2px solid red;
+				  -webkit-border-radius: 5px;
+				  border-radius: 5px;
+				}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">音乐盒</h1>
+		</header>
+		<div id="content_music" class="mui-content">
+			<!--<p>welcome to music</p>-->
+			<!--<div id="111" style="height: 100px;width: 100%;background-color: lightcyan;">
+				歌词
+			</div>		-->
+			<!--<img src="../images/m10.jpg" style="width: 100%; margin-top: 8px;" />
+			<img src="../images/md1.gif" style="width: 100%;"/>-->
+			
+			
+			
+		
+		<nav class="mui-bar mui-bar-tab" >
+			<p id="mprogress" class="progress" data-progress="20" style="width: 20%;"><span></span></p>
+			<div id="mycontent" style="height: 70px;background-color:white;text-align: center;">
+				<img id="mlistbutton" onclick="mclicked(this.id)" src="../images/m0.png" style="width: 40px;margin: 6px;position: absolute;left: 3%;"/>
+				<img id="mleft" onclick="mclicked(this.id)" src="../images/m1.png" style="width: 50px;margin: 6px;position: absolute;left: 25%;top: 10px;"/>
+				<img id="mstart" onclick="mclicked(this.id)" src="../images/m4.png" style="width: 65px;margin: 6px;position: absolute;left: 42%;"/>
+				<img id="mright" onclick="mclicked(this.id)" src="../images/m2.png" style="width: 50px;margin: 6px;position: absolute;left: 64%;top: 10px;"/>
+			</div>			
+		</nav>
+		
+		</div><!--content_music-->
+		
+		
+		<div id="menu-wrapper" class="mui-scroll-wrapper menu-wrapper hidden" style="width: 80%;height:70%;position:absolute;left: 10%;top: 8%;">
+			<div id="menu" class="mui-scroll menu">				
+				<ul id="menu-list" class="mui-table-view "style="text-align: left;" >
+					
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">天后</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">素颜</a>
+					</li>					
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">星空</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">天后</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">1111111111</a>
+					</li>					
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">星空</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">天后</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">素颜</a>
+					</li>					
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">星空</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">天后</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">素颜</a>
+					</li>					
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">星空</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">素颜</a>
+					</li>					
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">星空</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">天后</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">素颜</a>
+					</li>					
+					<li class="mui-table-view-cell">
+						<a href="javascript:;">星空</a>
+					</li>
+					<div id="listing"></div>
+				</ul>
+			</div>
+		</div>
+	</body>
+
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			var start_src="../images/m4.png";
+			var stop_src="../images/m3.png";
+			var song="../musicbox/";		//	"../musicbox/天后.mp3"
+			var p=null;//歌曲对象
+			var songlong=0;//歌曲长度
+			var songpos=0;//当前歌曲位置
+			var mpro=0;//歌曲百分比
+			var msetinterval=null;//定时器
+			var mlistbutton=document.getElementById('mlistbutton');
+			var mstart=document.getElementById('mstart');
+			var mnext=document.getElementById('mright');
+			var mpre=document.getElementById('mleft');
+			var mprogress=document.getElementById('mprogress');
+			var menu_list=document.getElementById('menu-list');
+			
+			mui.preload(function(){
+				
+			});
+			
+			/*var progressbar1 = mui('#demo1');
+			//mui(progressbar1).progressbar().setProgress(10);
+			progressbar1.on('tap', 'a', function() {
+				mui(progressbar1).progressbar().setProgress(this.getAttribute('data-progress'));
+			});*/
+			
+			function mclicked(id){
+			switch(id){
+				case 'mlistbutton':
+					//mui.toast('mlistbutton-弹窗list窗口');
+					mlistbutton.style.width='45px';
+					setTimeout(function(){
+						mlistbutton.style.width='40px';
+						
+					},200);
+					toggleMenu();//弹窗下拉窗
+					
+					var listing='';
+				for (var i=0;i<100;i++) {
+					listing+='<li class="mui-table-view-cell"><a href="javascript:;">'+i+'</a></li>';
+				}
+				document.getElementById('listing').innerHTML=listing;
+					
+					break;
+				case 'mleft':
+					mleft.style.width='55px';
+					mprogress.style.width=parseInt(mprogress.style.width)-5+'%';
+					mstart.src=start_src;
+					//播放
+					mstart.src=stop_src;
+					setTimeout(function(){
+						mleft.style.width='50px'
+					},120);
+					mui.toast('mleft'+mprogress.style.width);
+					break;
+				case 'mstart':
+					//mui.toast('mstart   '+ mstart.src.substr( mstart.src.length-6,6)+'   '+start_src.substr(start_src.length-6,6));
+					if ( mstart.src.substr( mstart.src.length-6,6) == start_src.substr(start_src.length-6,6)) {	//播放按钮
+						if (!p) {
+							mui.toast('播放');
+							//song_play(song);//播放	给个默认值
+						}else{	
+							mui.toast('恢复   '+parseFloat(p.getPosition())*100/parseFloat(p.getDuration())+'%');
+							song_pro();
+							p.resume();//恢复播放										
+							mstart.src=stop_src;
+						}
+						
+					} else{//停按钮
+						if(p){
+							mui.toast('暂停');
+							p.pause();//暂停		
+							clearInterval(msetinterval);
+						}else{
+							mui.toast('停止');
+							//p.stop();//停止		
+							clearInterval(msetinterval);
+						}
+							 mstart.src=start_src;
+					}
+					
+					
+					break;
+				case 'mright':
+					mright.style.width='55px';
+					mprogress.style.width=5+parseInt(mprogress.style.width)+'%';
+					mstart.src=start_src;
+					//播放
+					mstart.src=stop_src;
+					setTimeout(function(){
+						mright.style.width='50px'
+					},120);
+					mui.toast('mright'+mprogress.style.width);
+										
+					break;
+				default:
+					break;
+			}
+		}//clicked
+		
+		function song_play(song){
+			if ( plus.audio == undefined ) {
+				 mstart.src=start_src;
+				alert( "Device not ready!" );
+			}
+			mstart.src=stop_src;
+			p=plus.audio.createPlayer(song);
+			
+			song_pro();
+			
+			p.play(function () {
+				 mstart.src=start_src;//播放完成，按钮改变				
+				}, function ( e ) {
+					 mstart.src=start_src;
+					console.log( "Audio play error: " + e.message ); 
+				}
+			);			
+		}
+		
+		//歌曲进度条
+		function song_pro(){
+			clearInterval(msetinterval);
+			msetinterval=setInterval(function(){
+				mpro=parseFloat(p.getPosition())*100/parseFloat(p.getDuration())+'%';
+				mprogress.style.width=mpro;
+				//mui.toast('1');
+			},30);
+		}
+		
+		
+		//下拉窗list
+			var menuWrapper = document.getElementById("menu-wrapper");
+			var menu = document.getElementById("menu");
+			var menuWrapperClassList = menuWrapper.classList;	
+			
+			//document.getElementById("mlistbutton").addEventListener('tap', toggleMenu);
+			
+			//下拉菜单中的点击事件
+			mui('#menu').on('tap', 'a', function() {
+				toggleMenu();
+				if (p) {
+					p.stop();					
+					var songing=song+this.innerHTML+'.mp3';
+					mui.toast('你已选择：'+this.innerHTML);
+					song_play(songing);
+				}else{
+					var songing=song+this.innerHTML+'.mp3';
+					mui.toast('你已选择：'+this.innerHTML);
+					song_play(songing);
+				}
+			});
+			var busying = false;
+			
+			function toggleMenu() {
+				if (busying) {
+					return;
+				}
+				busying = true;
+				if (menuWrapperClassList.contains('mui-active')) {
+					document.body.classList.remove('menu-open');
+					menuWrapper.className = 'mui-scroll-wrapper menu-wrapper animated fade-out-up ';
+					menu.className = 'mui-scroll menu bounce-out-up animated';
+					setTimeout(function() {
+						//backdrop.style.opacity = 0;//透明度
+						menuWrapper.classList.add('hidden');
+					}, 200);
+				} else {
+					document.body.classList.add('menu-open');
+					menuWrapper.className = 'mui-scroll-wrapper menu-wrapper fade-in-down animated mui-active';
+					menu.className = 'mui-scroll menu bounce-in-down ';
+					//backdrop.style.opacity = 1;
+				}
+				setTimeout(function() {
+					busying = false;
+				}, 500);
+			}
+			
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+		</script>
+</html>

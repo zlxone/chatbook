@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			.remember{
+				background-color: lightgoldenrodyellow;
+				font-size: large;
+				width: 100%;
+				height: 300px;
+				overflow: auto;
+				word-break: break-all;				
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content">
+			
+			<textarea id="ta" class="remember">临兵斗者皆阵列在前</textarea>
+			<input id="bn" type="button"  value="append" onclick="appe1()"/>
+			name：<label id="name"></label>
+		</div>
+	</body>
+	
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript" src="../js/immersed.js" ></script>
+	<script type="text/javascript">
+		mui.init();		
+		
+		var hacc=0;
+		window.addEventListener('refresh',function(e){			
+			if (hacc=e.detail.chatinfo==1) {
+				//var chatinfo=JSON.parse(e.detail.chatinfo);
+				var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+				document.getElementById('name').innerHTML=chatinfo[0].username;
+				//hacc=0;				
+			}
+		});
+		
+		function appe1(){
+			alert(localStorage.getItem('chat_id')+' || '+document.getElementById('name').innerHTML);
+			//document.getElementById('ta').innerHTML='geolocation:'+plus.geolocation.getCurrentPosition()+'|imsi:'+plus.device.imsi+'|model:'+plus.device.model+'|vendor:'+plus.device.vendor+'|uuid:'+plus.device.uuid;
+		}
+	</script>
+</html>

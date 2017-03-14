@@ -1,0 +1,213 @@
+/**
+ * Copyright (c) 2007-2010, Kaazing Corporation. All rights reserved.
+ */
+
+/* Author: Peter Lubbers */
+
+body {
+	font-family: Arial Narrow, Helvetica, Arial, sans-serif;
+	color:#000000;
+	}
+	
+p {
+  /* setup some more readable paragraph spacing */
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+p.code {
+	font-family:"Courier New", Courier, monospace;
+	color:#FFFFFF;
+	background-color:#44687d;
+	margin: 0px 20px 10px 10px;
+	padding: 10px 10px; 
+	}
+
+.code_inline {
+	font-family: "Courier New", Courier, monospace;
+	color: #44687d;
+	}
+
+p.figure {
+	font-style: italic;
+	font-size: 3;
+	margin-top: 0.08in;
+	}
+
+h1,h2, h3, h4, h5 {
+	/* Kaazing blue */
+	color: #44687d;
+	/* setup some more readable header spacing */
+	padding-bottom: 5px;
+	margin: 5px 0 5px 0;
+}
+
+h1 { 
+	font-size: 175%;
+}
+
+h2 {
+	font-size: 150%;
+}
+
+h3 {
+	font-size: 135%;
+	/* Kaazing Web Orange */
+}
+
+h4 {
+	font-size: 120%;
+}
+
+h5 {
+	font-size: 110%;
+	font-weight: bolder;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+ul.arrow-2 li {
+	background: url(../images/arrow-2.png) 2px 2px no-repeat;
+	list-style: none;
+	padding-left: 25px;
+	padding-bottom: 5px;
+	}
+
+/* @group Notice Styles */
+span.alert,
+span.info,
+span.download,
+span.note {
+	display: block;
+	padding: 10px 10px 10px 45px;
+	margin: 15px 0;	
+}
+
+span.alert {
+	color: #c00;
+	border-top: 3px solid #fe7b7a;
+	border-bottom: 3px solid #fe7b7a;
+	background: #ffffff url(../images/status-alert.png) 10px 50% no-repeat;
+	margin: 0px 20px 0px 0px;
+}
+
+span.info {
+	color: #44687d;
+	border-top: 3px solid #44687d;
+	border-bottom: 3px solid #44687d;
+	background: #ffffff url(status-info.png) 10px 50% no-repeat;
+	margin: 0px 20px 0px 0px;
+}
+
+span.note {
+	color: #cd5a13;
+	border-top: 3px solid #f37333;
+	border-bottom: 3px solid #f37333;
+	background: #ffffff url(../images/status-note.png) 10px 50% no-repeat;
+	margin: 0px 20px 0px 0px;
+}
+
+span.download {
+	color: #5a8e22;
+	border-top: 3px solid #5a8e22;
+	border-bottom: 3px solid #5a8e22;
+	background: #ffffff url(../images/status-download.png) 10px 50% no-repeat;
+	margin: 0px 20px 0px 0px;
+}
+
+/* @Code formatting for span elements */
+span.code {
+	font-family:"Courier New", Courier, monospace;
+	color:#FFFFFF;
+	background-color: #44687d;
+	margin: 0px 20px 10px 0px;
+	padding: 10px 20px; 
+	}
+/* @end */
+
+#overall_frame {
+	position:relative;
+	text-align:center;
+	width: 100%;
+ 	}
+	
+#wrapper {
+    margin: 0pt auto;
+	text-align:left;
+	padding: 0pt;
+	width: 960px;
+	background-color:#FFFFFF
+	}
+	
+#header {
+    height: 50px;
+    background: url(../images/kaazing.gif)  right no-repeat;
+	
+	}
+	
+#menu {
+	position:relative;
+	top: 135px;
+	left: 40px;
+	height: 20px;
+	width:870px;
+	}
+	
+#menu a {
+	color:#FFFFFF;
+	font-weight:bold;
+	padding: 0px 20px 0px 0px;
+	}
+	
+#menu a:hover {
+	color:#ff5113;
+	font-weight:bolder;
+	}
+
+#content {
+	position:relative;
+	margin: 0px 20px 10px 20px;
+	}
+
+#main_home {
+    background: url(../images/side_banner.jpg) top right no-repeat;
+	position:relative;
+	padding: 0px 130px 10px 20px;
+	}
+
+#main {
+	position:relative;
+	padding: 0px 10px 10px 20px;
+	border-left: 3px solid #f47d31;
+	border-right: 3px solid #f47d31;
+	border-bottom: 3px solid #f47d31; 
+	border-top: 3px solid #f47d31;
+	}
+
+#footer {
+	position:relative;
+    height: 50x;
+	text-align:center;
+	color: #44687d;
+	font-size: 75%;
+	}	
+
+#widget {
+    height: 400px;
+    width: 800px;
+}
+
+#geodata {
+    border: 2px solid #44687d;
+    width: 400px;
+    height: 100px;
+    display: block;
+    margin: 20px 0px;
+}
+

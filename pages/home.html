@@ -1,0 +1,293 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="mui-content" >
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="../images/yuantiao.jpg">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../images/cbd.jpg">
+						</a>
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../images/muwu.jpg">
+						</a>
+					</div>
+					<!-- 第三张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../images/shuijiao.jpg">
+						</a>
+					</div>
+					<!-- 第四张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../images/yuantiao.jpg">
+						</a>
+					</div>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="../images/cbd.jpg">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			
+			
+			
+			<!--内容图标div-->
+			<div id="mycontent" style="height: 60px;background-color:whitesmoke;text-align: center;">
+				<img id="cmusic" onclick="clicked(this.id)" src="../images/c11.png" style="width: 40px;margin: 6px;position: absolute;left: 10%;"/>
+				<img id="cvideo" onclick="clicked(this.id)" src="../images/c12.png" style="width: 40px;margin: 6px;position: absolute;left: 30%;"/>
+				<img id="cmap"   onclick="clicked(this.id)" src="../images/c13.png" style="width: 40px;margin: 6px;position: absolute;left: 50%;"/>
+				<img id="cpaper" onclick="clicked(this.id)" src="../images/c14.png" style="width: 40px;margin: 6px;position: absolute;left: 70%;"/>
+			</div>
+			
+			
+			<div class="mui-content" style="margin-top: -17px;">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" src="../images/shuijiao.jpg">
+							<div id="hname" class="mui-media-body">
+								幸福
+								<p class="mui-ellipsis">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../images/muwu.jpg">
+						<div class="mui-media-body">
+							木屋
+							<p class="mui-ellipsis">想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../images/cbd.jpg">
+						<div class="mui-media-body">
+							CBD
+							<p class="mui-ellipsis">烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../images/shuijiao.jpg">
+						<div class="mui-media-body">
+							幸福
+							<p class="mui-ellipsis">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../images/muwu.jpg">
+						<div class="mui-media-body">
+							木屋
+							<p class="mui-ellipsis">想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../images/cbd.jpg">
+						<div class="mui-media-body">
+							CBD
+							<p class="mui-ellipsis">烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../images/shuijiao.jpg">
+						<div class="mui-media-body">
+							幸福
+							<p class="mui-ellipsis">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../images/muwu.jpg">
+						<div class="mui-media-body">
+							木屋
+							<p class="mui-ellipsis">想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
+						</div>
+					</a>
+				</li>
+				</ul>
+			</div>
+				
+			<ul class="mui-table-view" style="background-color: moccasin;">
+				<li  class="mui-table-view-cell">
+					<a id="hname" class="mui-navigate-right">Item 1</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 2</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 3</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 1</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 2</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 3</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 1</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 2</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 3</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 1</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 2</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 3</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 1</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 2</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 3</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 1</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 2</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 3</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 1</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 2</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">Item 3</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/sub.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+	
+	<script type="text/javascript">
+		mui.init();
+		
+		var cmusic=document.getElementById('cmusic');
+		var cvideo=document.getElementById('cvideo');
+		var cmap=document.getElementById('cmap');
+		var cpaper=document.getElementById('cpaper');
+		
+		var hacc=0;
+		window.addEventListener('refresh',function(e){
+			if (hacc=e.detail.chatinfo==1) {
+				//var chatinfo=JSON.parse(e.detail.chatinfo);
+				var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+				document.getElementById('hname').innerHTML=chatinfo[0].username;
+								
+			}
+		});
+		
+		
+		mui.preload(function(){});
+			
+			function clicked(id){
+			switch(id){
+				case 'cmusic':
+					mui.toast('music');
+					cmusic.style.width='45px';
+					setTimeout(function(){
+						cmusic.style.width='40px';
+						mui.openWindow({
+							url:'musicbox.html',
+							id:'musicbox',
+							/*extras:{
+								
+							}*/
+						});
+					},200);
+					break;
+				case 'cvideo':
+					mui.toast('video');
+					cvideo.style.width='45px';
+					setTimeout(function(){
+						cvideo.style.width='40px'
+						mui.openWindow({
+							url:'mvideo.html',
+							id:'mvideo',
+							/*extras:{
+								
+							}*/
+						});
+					},200);
+					break;
+				case 'cmap':
+					mui.toast('map');
+					cmap.style.width='45px';
+					setTimeout(function(){
+						cmap.style.width='40px'
+					},200);
+					break;
+				case 'cpaper':
+					mui.toast('paper');
+					cpaper.style.width='45px';
+					setTimeout(function(){
+						cpaper.style.width='40px'
+					},200);
+					break;
+				default:
+					break;
+			}
+		}
+			
+			
+		
+		
+		
+	</script>
+</html>

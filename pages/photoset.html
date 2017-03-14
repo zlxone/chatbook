@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>gallery</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">图片</h1>
+		</header>
+		
+		
+		<div class="mui-content">	
+			<img id="img1" src="" style="width: 50px;height: 50px;"/>
+			<input type="button" name="1" id="1" value="button" />
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		document.getElementById('img1').addEventListener('tap', function(e) {		
+			plus.gallery.pick(function(path) {
+					document.getElementById('img1').src=path;
+					//alert("Success: " + path);
+				}, function(err) {
+					alert("Failed: " + err.message);
+				});
+			},false);
+	</script>
+
+</html>

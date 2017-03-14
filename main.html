@@ -1,0 +1,273 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>chatbook</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/app.css"/>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style="height:32px;">
+			<h1 class="mui-title">首页</h1>Hi,<label id="hname"></label>
+		<!--	<div id="11" style="margin-top:10px;background-color: yellow;height: 10px;padding-top: ;">
+				<span id="chat_span" style="font-size:11px;background-color: wheat;">tips:临兵斗者皆阵列在前</span>
+			</div>-->
+			<div id="chat_tips" class="mui-bar " style="height:16px;margin-top: 12px;line-height: 10px;background-color: yellow;clear: all;" >
+				<span style="font-size:11px;color: brown;">tips:临兵斗者皆阵列在前</span>
+			</div>
+		</header>
+		
+		
+		
+		<nav class="mui-bar mui-bar-tab" >
+			<a class="mui-tab-item mui-active" data-index="0">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>			
+			<a class="mui-tab-item" data-index="1">
+				<span class="mui-icon mui-icon-compose"></span>
+				<span class="mui-tab-label">备忘</span>
+			</a>
+			<a class="mui-tab-item" data-index="2">
+				<span class="mui-icon mui-icon-map"></span>
+				<span class="mui-tab-label">位置</span>
+			</a>
+			<a class="mui-tab-item" data-index="3">
+				<span class="mui-icon mui-icon-phone"></span>
+				<span class="mui-tab-label">好友</span>
+			</a>
+			<a class="mui-tab-item" data-index="4">
+				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+				var hname = document.getElementById('hname');
+				//var hacc=JSON.stringify({});
+				var hacc=0;
+				var isnet=0;
+				var islogin=0;
+			window.addEventListener('login', function(e) {					
+					//检测网络是否连接，如果没有连接，hacc未空
+				if (plus.networkinfo.getCurrentType()==plus.networkinfo.CONNECTION_NONE || plus.networkinfo.getCurrentType()==plus.networkinfo.CONNECTION_UNKNOW) {
+						//hacc={};
+						//mui.toast('未连接网络，请连接！！！！');
+					}else{
+						isnet=1;
+						islogin=1;
+						hacc=e.detail.chatinfo;	//原始数据 
+						if (hacc==1) {
+							var chatn = JSON.parse(localStorage.getItem('chat_id'))[0].username;
+							hname.innerHTML=chatn;						
+							//hacc=0;
+						}
+					}									
+				}, false);
+				
+			mui.plusReady(function() {
+				document.getElementById('chat_tips').innerHTML='<span style="font-size:11px;color: brown;">tips:'+hacc+'</span>';
+				
+				var header = document.getElementById("header");
+				var righticon = document.createElement('a');
+				righticon.className = 'mui-icon mui-icon-chat mui-pull-right';
+				//righticon.classList='style="color:red;"';
+				righticon.id='chaticon';
+				
+				/**
+				 * 当前窗口对象，即父窗口；
+				 */
+				var self = plus.webview.currentWebview();
+				// 子窗口地址数组
+				var subpages = ["pages/home.html", "pages/remember.html", "pages/map.html", "pages/friend.html","pages/my.html"];
+				// 子窗口样式
+				var subStyles = {
+					top: "48px",
+					bottom: "50px"
+				};
+				// 子窗口数量
+				var subLen = subpages.length;
+				// 子窗口对象数组
+				var subWvs = [];
+				// 标题栏
+				var title = document.querySelector(".mui-title");
+				// 底部选项
+				var tabs = document.querySelectorAll(".mui-tab-item");
+				// 底部文字
+				var labels = document.querySelectorAll(".mui-tab-label");
+				// 当前页面索引，初始化为0；
+				var activeIndex = 0;
+				// 目标页面索引，初始化为当前页面索引；
+				var targetIndex = activeIndex;				
+			
+				// 创建子页面
+				for(var i = 0; i < subLen; i++) {
+					/**
+					 * 创建窗口对象，并将索引做为额外的参数传递；
+					 */
+					
+					var subWv = plus.webview.create(subpages[i], cutWebviewId(subpages[i]), subStyles, {
+						index: i
+					});
+					
+									
+					
+					// 窗口对象添加至数组
+					subWvs.push(subWv);
+					if(i > 0) {
+						/**
+						 * 隐藏非第一页的窗口对象
+						 */
+						subWv.hide("none");
+					}
+					/**
+					 * 向父窗口添加子窗口
+					 */
+					self.append(subWv);
+				}
+			
+				// 底部选项卡点击切换事件
+				for(var j = 0, jlen = tabs.length; j < jlen; j++) {
+					tabs[j].addEventListener("tap", function() {
+						// 获取当前结点的索引
+						targetIndex = this.getAttribute("data-index");
+						// 转换为number类型
+						targetIndex = parseInt(targetIndex, 10);
+						if(targetIndex == activeIndex) {
+							return;
+						}
+						// 切换页面
+						switchPage("tap", activeIndex, targetIndex);
+						
+					
+					//显示右上角图标	
+					if(targetIndex=='4'){
+						header.appendChild(righticon);				
+					}else{
+						remove('.mui-pull-right');
+					}
+					
+					//删除原先存在的节点
+					function remove(selector) {
+						var elem = header.querySelector(selector);
+						if (elem) {
+							header.removeChild(elem);
+							}
+						}
+					});
+				}
+				// 子页面滑动切换事件
+				/*window.addEventListener("swipe_event", function(event) {
+					// 获取方向以及索引
+					var direction = event.detail.direction;
+					activeIndex = event.detail.index;
+					if(direction == "left") {
+						// 如果是最后一个页面，则不做左滑切换；
+						if(activeIndex == subLen - 1) {
+							console.log("最右边一页了");							
+							return;
+						}
+						// 目标页面的索引为后面一位
+						targetIndex = activeIndex + 1;
+					} else {
+						// 如果是第一个页面，则不做右滑切换；
+						if(activeIndex == 0) {
+							console.log("最左边一页了");
+							return;
+						}
+						// 目标页面的索引为前面一位
+						targetIndex = activeIndex - 1;
+					}
+					
+					if(activeIndex=='4'){
+						header.appendChild(righticon);				
+					}else{
+						remove('.mui-pull-right');
+					}
+					
+					//删除原先存在的节点
+					function remove(selector) {
+						var elem = header.querySelector(selector);
+						if (elem) {
+							header.removeChild(elem);
+							}
+						}
+					
+					// 切换页面
+					switchPage("switch", activeIndex, targetIndex);
+				});*/
+
+				/**
+				 * 切换页面
+				 * @param {String} _event 事件类型
+				 * @param {Number} _active 当前页面索引
+				 * @param {Number} _target 目标页面索引
+				 */
+				function switchPage(_event, _active, _target) {
+					
+					
+					//判断是否联网、登录    传数据
+					if(isnet==1&&islogin==1){
+						mui.fire(subWvs[_target],'refresh',{
+							chatinfo:hacc	//localStorage.getItem('chat_id')
+						});
+					}
+					
+					/**
+					 * 目标页面展示
+					 */					
+					subWvs[_target].show("fade-in");					
+					
+					// 顶部文字替换
+					title.innerText = labels[_target].innerText;
+					// 如果是滑动事件，则手动切换高亮选项；
+					if(_event == "switch") {
+						tabs[_active].classList.remove("mui-active");
+						tabs[_target].classList.add("mui-active");
+					}
+					// 之前展示的页面隐藏
+					subWvs[_active].hide("none");
+					// 更新当前页索引
+					activeIndex = _target;
+				}
+					
+					
+				
+				//返回按钮事件
+					var backButtonPress = 0;
+					mui.back = function(event) {
+						backButtonPress++;
+						if (backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出应用');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+					
+			});
+
+			/**
+			 * 截取url地址，获取窗口的id；
+			 * @param {String} url html文件的路径
+			 * @param {String} wvId webviewObject的id
+			 */
+			function cutWebviewId(url) {
+				var startIndex = url.lastIndexOf("/");
+				var endIndex = url.lastIndexOf(".html");
+				var wvId = url.substring(startIndex + 1, endIndex);
+				return wvId;
+			}
+		</script>
+	</body>
+
+</html>

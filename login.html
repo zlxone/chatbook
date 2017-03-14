@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href=" css/mui.min.css" rel="stylesheet" />	
+		<link href=" css/mydefine.css" rel="stylesheet" />	
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">登录</h1>
+		</header>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id='pwd' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+				</div>
+			</form>
+			<form class="mui-input-group">
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">
+						自动登录
+						<div id="autoLogin" class="mui-switch">
+							<div class="mui-switch-handle"></div>
+						</div>
+					</li>
+				</ul>
+			</form>
+			<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary">点我登录</button>
+				<div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
+				</div>
+			</div>
+			<div id="ad" class="mui-content-padded">
+				<!--广告区域-->
+				
+			</div>
+			
+			
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.enterfocus.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			var url1 = 'http://172.16.19.59:8080/phonebook/user';
+			
+			(function($, doc) {
+				$.init(
+					/*{
+					preloadPages: [{//预加载目标页面
+					'url': 'main.html',
+					'id': 'main'
+				}],
+					statusBarBackground: '#f7f7f7'
+				}*/);
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");//锁定竖屏方向
+					var settings = app.getSettings();
+					
+					var mainPage = $.preload({
+						"id": 'main',
+						"url": 'main.html'
+					});
+					
+					var toMain = function() {
+						/*$.fire(mainPage, 'login', {
+							chatinfo: localStorage.getItem('chat_id')
+						});*/
+						$.fire(mainPage, 'login', {
+							chatinfo:1
+						});
+						setTimeout(function() {
+							$.openWindow({
+								url: 'main.html',
+								id: 'main',
+								show: {
+									aniShow: 'pop-in'
+								},								
+								waiting: {
+									autoShow: false
+								}
+							});
+						}, 100);
+					};
+					
+					var chatn=localStorage.getItem('chat_n');
+					var chatp=localStorage.getItem('chat_p');
+					if(chatn!=''){
+						document.getElementById('account').value=chatn;
+						//document.getElementById('pwd').value=chatp;
+					}					
+					
+					//检查  登录状态  开始
+					/*if (settings.autoLogin && state.token) {
+						toMain();
+					}*/
+					if(settings.autoLogin){
+						if (chatp!='') {
+							document.getElementById('pwd').value=chatp;
+							setTimeout(function(){
+								toMain();
+							},300);
+						}						
+					}
+					
+					// close splash
+					setTimeout(function() {
+						//关闭 splash
+						plus.navigator.closeSplashscreen();
+					}, 600);
+					//检查 "登录状态/锁屏状态" 结束
+					var loginButton = doc.getElementById('login');
+					var accountBox = doc.getElementById('account');
+					var pwdBox = doc.getElementById('pwd');
+					var autoLogin = doc.getElementById("autoLogin");
+					var regButton = doc.getElementById('reg');
+					var forgetButton = doc.getElementById('forgetPassword');
+					
+					loginButton.addEventListener('tap', function(event) {
+						//alert(settings.autoLogin);
+						suspendBtn(loginButton);
+						mui.toast('logining');
+						var loginInfo = {
+							username: accountBox.value,
+							userpwd: pwdBox.value
+						};
+						//联网验证
+						check(url1,'login',loginInfo);
+						//保存密码帐号在本地
+						localStorage.setItem('chat_n',loginInfo.username);
+						localStorage.setItem('chat_p',loginInfo.userpwd);
+						resumeBtn(loginButton);	
+						
+						//本地验证（不用本地验证）
+						/*app.login(loginInfo, function(err) {
+							if (err) {
+								plus.nativeUI.toast(err);
+								return;
+							}
+							toMain();
+						});*/
+						
+					});
+					
+					function check(url,func,info){
+						var name=info.username,pwd=info.userpwd;						
+						//alert(name+pwd);
+						if (name=='') {
+							mui.toast('帐号不能为空！');
+							return;
+						}else if(pwd==''){
+							mui.toast('密码不能为空！');
+							return;
+						}
+						
+				mui.ajax(url, {
+					data: {
+						func: func,
+						username: encodeURI(name),
+						userpwd:pwd
+					},
+					crossDomain:true,
+					dataType: 'json',
+					type: 'post',
+					//timeout: '5000',
+					//headers: {'Content-Type': 'application/json'},
+					success: function(data) {
+						//console.log(data[0].id);
+						if(data[0].num1=='1'){
+							mui.toast('登录成功。');
+							//保存id到本地
+							//localStorage.setItem('chat_id',data[0].id);
+							localStorage.setItem('chat_id',JSON.stringify(data));
+							setTimeout(function(){
+								toMain();
+							},300);
+						}else if(data[0].num1=='-2'){
+							mui.toast('此帐号已被冻结！');
+						}else if(data[0].num1=='-1'){
+							mui.toast('您输入的帐号或密码错误，请重新输入！');
+						}else if(data[0].num1=='0'){
+							mui.toast('您输入的密码错误，请重新输入！');
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log("异常" + type); //异常
+					}
+				});							
+				}
+					
+				//挂起按钮
+			function suspendBtn(btn){
+    			btn.disabled="disabled";
+   				btn.value="正在登录";
+			}
+ 
+				//恢复按钮
+			function resumeBtn(btn){
+   				btn.disabled="";
+   				btn.value="登录成功";
+			}
+					
+					
+					$.enterfocus('#login-form input', function() {
+						$.trigger(loginButton, 'tap');
+					});
+					
+					
+					//autoLogin.classList[settings.autoLogin ? 'add' : 'remove']('mui-active')
+					autoLogin.addEventListener('toggle', function(event) {
+						setTimeout(function() {
+							var isActive = event.detail.isActive;//获取当前状态的值
+							settings.autoLogin = isActive;
+							app.setSettings(settings);
+						}, 50);
+					}, false);
+					
+					
+					regButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							url: '/reg.html',
+							id: 'reg',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, false);
+					
+					forgetButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							url: '/forget_password.html',
+							id: 'forget_password',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, false);
+					
+					//监测网络
+					document.addEventListener("netchange", function() {
+						if (plus.networkinfo.getCurrentType()==plus.networkinfo.CONNECTION_NONE) {
+							mui.toast('网络异常，请检查网络设置!');
+						}else{
+							mui.toast('已连接网络')
+						}
+					}, false);
+					
+					if (plus.networkinfo.getCurrentType()==plus.networkinfo.CONNECTION_NONE || plus.networkinfo.getCurrentType()==plus.networkinfo.CONNECTION_UNKNOW) {
+						mui.toast('未连接网络，请连接！');
+					}
+					
+					
+					
+					//返回按钮事件
+					var backButtonPress = 0;
+					$.back = function(event) {
+						backButtonPress++;
+						if (backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出应用');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+					
+				});				
+			}(mui, document));
+		</script>
+	</body>
+</html>

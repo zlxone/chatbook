@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">帐号安全</h1>
+		</header>
+		<div id="con" class="mui-content">			
+			<div style="margin-top: 20px;margin-left: 10px;">
+				<label >原密码</label>
+			</div>			
+			<form class="mui-input-group">				
+				<div class="mui-input-row" >
+					<input id='oldpwd' type="tel" class="mui-input-clear mui-input" placeholder="请输入">
+				</div>
+			</form>
+			
+			<div style="margin-top: 20px;margin-left: 10px;">
+				<label >新密码</label>
+			</div>			
+			<form class="mui-input-group">				
+				<div class="mui-input-row" >
+					<input id='newpwd' type="tel" class="mui-input-clear mui-input" placeholder="请输入">
+				</div>
+			</form>
+			
+			<div style="margin-top: 20px;margin-left: 10px;">
+				<label >确认新密码</label>
+			</div>			
+			<form class="mui-input-group">				
+				<div class="mui-input-row" >
+					<input id='cnewpwd' type="tel" class="mui-input-clear mui-input" placeholder="请输入">
+				</div>
+			</form>
+			
+			<div class="mui-content-padded" style="text-align: center;">
+				<button id='submit' class="mui-btn mui-btn-primary" >点我提交</button>
+			</div>
+			
+		</div>
+		
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		var islogin=0;
+		var isnet=0;
+		var cid=0;
+		var cp=0;
+		var funcid='cm_p';
+		var url1 = 'http://172.16.19.59:8080/phonebook/m_user';
+		var oldpwd=document.getElementById('oldpwd');
+		var newpwd=document.getElementById('newpwd');
+		var cnewpwd=document.getElementById('cnewpwd');
+		var subbutton=document.getElementById('submit');
+		mui.plusReady(function(){
+			var self = plus.webview.currentWebview();
+			islogin=self.islogin;
+			isnet=self.isnet;
+			//if (isnet==1 && islogin==1) {
+				cid=JSON.parse(localStorage.getItem('chat_id'))[0].id ||0;
+				cp=JSON.parse(localStorage.getItem('chat_id'))[0].userpwd;
+				//newpwd.innerHTML=JSON.parse(localStorage.getItem('chat_id'))[0].useranswer || 'xxx';
+			//}
+			
+			subbutton.addEventListener('tap',function(){
+				//mui.toast(cp.trim()+'  |  '+oldpwd.value);
+				if (!oldpwd.value) {
+					mui.toast('请输入原密码后再提交！');
+				} else if(!newpwd.value){
+					mui.toast('请输入新密码后再提交！');
+				}else if(!cnewpwd.value){
+					mui.toast('请输入确认新密码后再提交！');
+				}else if(cp.trim() != oldpwd.value){
+					mui.toast('原密码错误，请重新输入！');
+				}else if(newpwd.value != cnewpwd.value){
+					mui.toast('新密码与确认新密码不正确，请重新输入！');
+				}else{
+					//mui.toast('提交');
+					modify(url1,funcid,cnewpwd.value,cid);
+					
+					var chatinfo=JSON.parse(localStorage.getItem('chat_id'));
+					chatinfo[0].userpwd=cnewpwd.value;
+					localStorage.setItem('chat_id',JSON.stringify(chatinfo));
+				}
+			});
+			
+			}
+		);//plus--end
+		
+		function modify(url,id,data,cid){				
+				mui.ajax(url, {
+					data: {
+						funcid: id,
+						data:data,
+						cid:cid
+					},
+					dataType: 'text',
+					type: 'post',
+					//timeout: '100000',
+					//headers: {'Content-Type': 'application/json'},
+					success: function(data) {
+						if (data==1) {
+							mui.toast('success');
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log("异常" + type); //异常
+					}
+				});
+			}//ajax--end	
+	</script>
+</html>
