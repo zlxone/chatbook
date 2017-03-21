@@ -3,7 +3,6 @@
 
 
 ![Image text](https://raw.githubusercontent.com/zlxone/img-folder/master/IMG_5228.PNG)
-![Image text](https://raw.githubusercontent.com/zlxone/img-folder/master/22.png)
 ![Image text](https://raw.githubusercontent.com/zlxone/img-folder/master/IMG_5229.PNG)
 ![Image text](https://raw.githubusercontent.com/zlxone/img-folder/master/IMG_5238.PNG)
 ![Image text](https://raw.githubusercontent.com/zlxone/img-folder/master/IMG_5240.PNG)
